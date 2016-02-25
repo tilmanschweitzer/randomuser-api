@@ -21,6 +21,26 @@ var apiHelper = {
     }
 };
 
+var api = {
+    get: function (numberOfUsers, callback) {
+        request({
+            url: 'http://api.randomuser.me',
+            qs: {
+                results: numberOfUsers
+            }
+        }, apiHelper.createBaseHandler(function (body) {
+            var parsedBody = JSON.parse(body);
+
+            (callback || _.noop)(parsedBody.results);
+        }));
+    },
+    forEach: function (numberOfUsers, callback) {
+        api.get(numberOfUsers, function (users) {
+            users.forEach(callback);
+        });
+    }
+};
+
 var userHelper = {
     firstUpper: function (s) {
         if (s && s[0]) {
@@ -37,16 +57,9 @@ var userHelper = {
     }
 };
 
-request({
-    url: 'http://api.randomuser.me/?results=' + numberOfUsers
-}, apiHelper.createBaseHandler(function (body) {
-    var parsedBody = JSON.parse(body);
-    parsedBody.results.forEach(function (randomUser) {
-        var customUser = {
-            name: userHelper.buildName(randomUser.user),
-            mentionName: userHelper.buildMentionName(randomUser.user),
-            email: randomUser.user.email
-        };
-        console.log(JSON.stringify(customUser));
-    });
-}));
+
+module.exports = {
+    api: api,
+    apiHelper: apiHelper,
+    userHelper: userHelper
+};

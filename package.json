@@ -1,0 +1,15 @@
+{
+  "name": "randomuser-api",
+  "version": "0.0.1",
+  "description": "[WiP] Node module to access random user data from randomuser.me",
+  "main": "randomUsers.js",
+  "scripts": {
+    "test": "./example.js"
+  },
+  "author": "",
+  "license": "UNLICENCED",
+  "dependencies": {
+    "lodash": "^4.5.1",
+    "request": "^2.69.0"
+  }
+}
